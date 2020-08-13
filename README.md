@@ -14,8 +14,10 @@ It uses Java Programming Language and using this framework you can create and ru
 The Extent Reports include Screenshots for failed test cases. 
 
 ## Features
+```
  • Rerun Failed Test
  • Screenshot Capture for failed Test which is present in Extent Reports.
+ ```
 
 ## Driver Support
 • Currently it has Firefox driver support. For other Drivers, replace the FirefoxDriver with your preferred driver and the System Property.
