@@ -1,12 +1,13 @@
 package com.main.test;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import com.main.objectRepo.FacebookOR;
 import com.main.objectRepo.GoogleOR;
 import com.main.reports.ExtentManager;
 import com.main.utils.HelperClass;
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.LogStatus;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -36,7 +37,7 @@ public class Parent {
         fileSeparator = HelperClass.getFileSeparator();
         String testDataPath = userDirectory + fileSeparator + "src" + fileSeparator + "test" + fileSeparator + "java" + fileSeparator + "com" + fileSeparator + "main" + fileSeparator + "testdata" + fileSeparator + "TestData.properties";
         HelperClass.loadData(testDataPath);
-        HelperClass.deleteDirectory();
+        HelperClass.deleteAndCreateDirectory();
 
         driver = new FirefoxDriver();
         wait = new WebDriverWait(driver, 10);
@@ -50,7 +51,8 @@ public class Parent {
     @AfterSuite
     public void tearDown(ITestContext iTestContext) {
         driver.quit();
-        extentReports.endTest(extentTest);
+
+        extentReports.removeTest(extentTest);
         extentReports.flush();
     }
 
@@ -74,22 +76,22 @@ public class Parent {
     @BeforeMethod
     public void beforeMethod(Method method, ITestResult iTestResult, ITestContext iTestContext) {
         extentReports = ExtentManager.getInstance();
-        extentTest = extentReports.startTest(method.getName());
-        extentTest.log(LogStatus.INFO, iTestResult.getMethod().getDescription());
+        extentTest = extentReports.createTest(method.getName());
+        extentTest.log(Status.INFO, iTestResult.getMethod().getDescription());
     }
 
     @AfterMethod
     public void afterMethod(ITestResult iTestResult) {
         if(ITestResult.SUCCESS == iTestResult.getStatus()) {
-            extentTest.log(LogStatus.PASS, iTestResult.getName() + " Passed");
+            extentTest.log(Status.PASS, iTestResult.getName() + " Passed");
         } else if(ITestResult.SKIP == iTestResult.getStatus()) {
-            extentTest.log(LogStatus.SKIP, iTestResult.getName() + " Skipped");
+            extentTest.log(Status.SKIP, iTestResult.getName() + " Skipped");
         } else if(ITestResult.FAILURE == iTestResult.getStatus()) {
             Path path = Paths.get(userDirectory);
-            String dest = fileSeparator + path.getFileName() + fileSeparator + "Screenshots" + fileSeparator + iTestResult.getName() + ".png";
+            String imagePath = fileSeparator + path.getFileName() + fileSeparator + "Screenshots" + fileSeparator + iTestResult.getName() + ".png";
 
-            extentTest.log(LogStatus.FAIL,iTestResult.getName() + " Failed \n " + iTestResult.getThrowable());
-            extentTest.log(LogStatus.FAIL, extentTest.addBase64ScreenShot(dest));
+            extentTest.log(Status.FAIL,iTestResult.getName() + " Failed \n " + iTestResult.getThrowable());
+            extentTest.addScreenCaptureFromPath(imagePath);
         }
     }
 

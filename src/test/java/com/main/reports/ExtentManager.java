@@ -1,7 +1,8 @@
 package com.main.reports;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.main.utils.HelperClass;
-import com.relevantcodes.extentreports.ExtentReports;
 import java.io.File;
 
 public class ExtentManager {
@@ -20,11 +21,17 @@ public class ExtentManager {
     }
 
     private static ExtentReports createInstance() {
-        extentReports = new ExtentReports(reportFileLocation, true);
-        extentReports.loadConfig(new File(userDirectory + fileSeparator + "extent-config.xml"));
-        extentReports.addSystemInfo("OS", "Mac");
-        extentReports.addSystemInfo("Environment", "Production");
+        ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(reportFileLocation);
+        extentReports = new ExtentReports();
+        //extentReports.loadConfig(new File(userDirectory + fileSeparator + "extent-config.xml"));
 
+        extentSparkReporter.config().setReportName("Automation Report");
+        extentSparkReporter.config().setDocumentTitle("Automation Test Result");
+
+        extentReports.setSystemInfo("OS", "Mac");
+        extentReports.setSystemInfo("Environment", "Prod");
+
+        extentReports.attachReporter(extentSparkReporter);
         return extentReports;
     }
 }

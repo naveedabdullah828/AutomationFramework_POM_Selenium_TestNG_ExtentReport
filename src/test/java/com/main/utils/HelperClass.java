@@ -44,7 +44,7 @@ public class HelperClass {
         }
     }
 
-    public static void deleteDirectory() {
+    public static void deleteAndCreateDirectory() {
         File file = new File(getUserDirectory() + getFileSeparator() + "Screenshots");
         try {
             FileUtils.cleanDirectory(file);
