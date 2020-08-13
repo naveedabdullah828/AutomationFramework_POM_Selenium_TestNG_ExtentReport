@@ -3,7 +3,7 @@ package com.main.test;
 import com.main.utils.HelperClass;
 import org.testng.annotations.Test;
 
-public class FacebookTest extends Parent {
+public class FacebookTest extends TestBase {
 
     @Test(description = "Launch FB")
     public void TC_101_launchFB() {

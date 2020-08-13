@@ -18,8 +18,8 @@ import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Parent {
-    static WebDriver driver;
+public class TestBase {
+    public static WebDriver driver;
     static WebDriverWait wait;
 
     ExtentReports extentReports;
@@ -35,7 +35,7 @@ public class Parent {
     public void setup(ITestContext iTestContext) {
         userDirectory = HelperClass.getUserDirectory();
         fileSeparator = HelperClass.getFileSeparator();
-        String testDataPath = userDirectory + fileSeparator + "src" + fileSeparator + "test" + fileSeparator + "java" + fileSeparator + "com" + fileSeparator + "main" + fileSeparator + "testdata" + fileSeparator + "TestData.properties";
+        String testDataPath = userDirectory + fileSeparator + "TestData" + fileSeparator + "TestData.properties";
         HelperClass.loadData(testDataPath);
         HelperClass.deleteAndCreateDirectory();
 
@@ -51,8 +51,6 @@ public class Parent {
     @AfterSuite
     public void tearDown(ITestContext iTestContext) {
         driver.quit();
-
-        extentReports.removeTest(extentTest);
         extentReports.flush();
     }
 
