@@ -30,7 +30,7 @@ public class GoogleTest extends TestBase {
     public void TC_003_failTest() {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(false);
-        googleOR.enterText(HelperClass.testData.getProperty("naveed"));
+        googleOR.enterText(HelperClass.testData.getProperty("searchText"));
         if(!RetryFailedTest.retry) {
             softAssert.assertAll();
         }
