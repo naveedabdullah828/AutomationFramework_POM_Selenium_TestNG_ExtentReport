@@ -3,6 +3,7 @@
 <suite name="MainSuite">
     <listeners>
         <listener class-name="com.main.listener.ReportListener"/>
+        <listener class-name="com.main.listener.RetryListner"/>
     </listeners>
     <test name="MainTestLogin" thread-count="1">
         <classes>
