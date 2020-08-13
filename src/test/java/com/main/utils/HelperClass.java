@@ -32,7 +32,7 @@ public class HelperClass {
     }
 
     public static void loadData(String path) {
-        FileInputStream fileInputStream = null;
+        FileInputStream fileInputStream;
         try {
             fileInputStream = new FileInputStream(path);
             testData = new Properties();
@@ -47,8 +47,10 @@ public class HelperClass {
     public static void deleteAndCreateDirectory() {
         File file = new File(getUserDirectory() + getFileSeparator() + "Screenshots");
         try {
-            FileUtils.cleanDirectory(file);
-            FileUtils.forceDelete(file);
+            if (file.exists()) {
+                FileUtils.cleanDirectory(file);
+                FileUtils.forceDelete(file);
+            }
             FileUtils.forceMkdir(file);
         } catch (IOException e) {
             e.printStackTrace();
