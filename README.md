@@ -10,7 +10,8 @@ and built on
  • Extent Report and
  • Maven Build Automation Tool
 ```
-Which can be used to create and run Test Scripts. Using Extent Reports it provides reports including Screenshots for failed test cases. 
+It uses Java Programming Language and using this framework you can create and run Test Scripts. 
+The Extent Reports include Screenshots for failed test cases. 
 
 ## Driver Support
 • Currently it has Firefox driver support. For other Drivers, replace the FirefoxDriver with your preferred driver and the System Property.
@@ -32,4 +33,4 @@ Sample Test Scripts for Google Search and Facebook Create New User is added. Rep
 
 
 ## Please Note
-Add only the TestNG Test annotations (@Test) in the test classes, the other TestNG Test annotations (@Before, @After) should be updated/added in the file called "Parent.java", so that all Test Class can benefit from it.
+Add only the TestNG Test annotations (@Test) in the test classes, the other TestNG Test annotations (@Before, @After) should be updated/added in the file called "TestBase.java", so that all Test Class can benefit from it.
