@@ -23,7 +23,6 @@ public class ExtentManager {
     private static ExtentReports createInstance() {
         ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(reportFileLocation);
         extentReports = new ExtentReports();
-        //extentReports.loadConfig(new File(userDirectory + fileSeparator + "extent-config.xml"));
 
         extentSparkReporter.config().setReportName("Automation Report");
         extentSparkReporter.config().setDocumentTitle("Automation Test Result");
