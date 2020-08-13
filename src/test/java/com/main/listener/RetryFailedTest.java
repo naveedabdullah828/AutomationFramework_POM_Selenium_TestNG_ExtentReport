@@ -14,7 +14,6 @@ public class RetryFailedTest implements IRetryAnalyzer {
             retry = true;
             return true;
         }
-        retry = false;
         return false;
     }
 }
