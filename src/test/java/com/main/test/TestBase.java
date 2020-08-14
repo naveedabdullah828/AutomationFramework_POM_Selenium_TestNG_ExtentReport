@@ -1,11 +1,8 @@
 package com.main.test;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
+import com.main.listener.ReportListener;
 import com.main.objectRepo.FacebookOR;
 import com.main.objectRepo.GoogleOR;
-import com.main.reports.ExtentManager;
 import com.main.utils.HelperClass;
 
 import org.openqa.selenium.WebDriver;
@@ -15,15 +12,10 @@ import org.testng.*;
 import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-public class TestBase {
+public class TestBase extends ReportListener {
     WebDriver driver;
     WebDriverWait wait;
-
-    ExtentReports extentReports;
-    ExtentTest extentTest;
 
     static String fileSeparator;
     static String userDirectory;
@@ -43,7 +35,6 @@ public class TestBase {
     @AfterSuite
     public void tearDown(ITestContext iTestContext) {
         driver.quit();
-        extentReports.flush();
     }
 
     @BeforeTest
@@ -76,24 +67,10 @@ public class TestBase {
 
     @BeforeMethod
     public void beforeMethod(Method method, ITestResult iTestResult, ITestContext iTestContext) {
-        extentReports = ExtentManager.getInstance();
-        extentTest = extentReports.createTest(method.getName());
-        extentTest.log(Status.INFO, iTestResult.getMethod().getDescription());
     }
 
     @AfterMethod
     public void afterMethod(ITestResult iTestResult) {
-        if(ITestResult.SUCCESS == iTestResult.getStatus()) {
-            extentTest.log(Status.PASS, iTestResult.getName() + " Passed");
-        } else if(ITestResult.SKIP == iTestResult.getStatus()) {
-            extentTest.log(Status.SKIP, iTestResult.getName() + " Skipped");
-        } else if(ITestResult.FAILURE == iTestResult.getStatus()) {
-            Path path = Paths.get(userDirectory);
-            String imagePath = fileSeparator + path.getFileName() + fileSeparator + "Screenshots" + fileSeparator + iTestResult.getName() + ".png";
-
-            extentTest.log(Status.FAIL,iTestResult.getName() + " Failed \n " + iTestResult.getThrowable());
-            extentTest.addScreenCaptureFromPath(imagePath);
-        }
     }
 
     public WebDriver getDriver() {

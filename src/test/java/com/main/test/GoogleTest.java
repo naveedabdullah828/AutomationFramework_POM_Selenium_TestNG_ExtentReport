@@ -1,5 +1,6 @@
 package com.main.test;
 
+import com.aventstack.extentreports.Status;
 import com.main.listener.RetryFailedTest;
 import com.main.utils.HelperClass;
 import org.testng.Assert;
@@ -19,6 +20,7 @@ public class GoogleTest extends TestBase {
 
     @Test(description = "Click on Search")
     public void TC_004_clickTest() {
+        extentTest.log(Status.INFO, "Step Info");
         googleOR.clickSearch();
         if (RetryFailedTest.retry)
             Assert.fail();

@@ -9,13 +9,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class HelperClass {
 
     public static Properties testData;
 
-    public static void takeScreenshot(WebDriver driver, String screenshotName) {
+    public static String takeScreenshot(WebDriver driver, String screenshotName) {
         String userDirectory = getUserDirectory();
         String fileSeparator = getFileSeparator();
 
@@ -29,6 +31,10 @@ public class HelperClass {
             e.printStackTrace();
             System.err.println("File Copy Failed " + e.getMessage());
         }
+
+        Path path = Paths.get(userDirectory);
+        String imagePath = fileSeparator + path.getFileName() + fileSeparator + "Screenshots" + fileSeparator + screenshotName + ".png";
+        return imagePath;
     }
 
     public static void loadData(String path) {
