@@ -19,8 +19,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class TestBase {
-    public static WebDriver driver;
-    static WebDriverWait wait;
+    WebDriver driver;
+    WebDriverWait wait;
 
     ExtentReports extentReports;
     ExtentTest extentTest;
@@ -28,8 +28,8 @@ public class TestBase {
     static String fileSeparator;
     static String userDirectory;
 
-    static GoogleOR googleOR;
-    static FacebookOR facebookOR;
+    GoogleOR googleOR;
+    FacebookOR facebookOR;
 
     @BeforeSuite
     public void setup(ITestContext iTestContext) {
@@ -38,14 +38,6 @@ public class TestBase {
         String testDataPath = userDirectory + fileSeparator + "TestData" + fileSeparator + "TestData.properties";
         HelperClass.loadData(testDataPath);
         HelperClass.deleteAndCreateDirectory();
-
-        driver = new FirefoxDriver();
-        wait = new WebDriverWait(driver, 10);
-
-        googleOR = new GoogleOR(driver, wait);
-        facebookOR = new FacebookOR(driver, wait);
-
-        iTestContext.setAttribute("driver", driver);
     }
 
     @AfterSuite
@@ -64,7 +56,18 @@ public class TestBase {
     }
 
     @BeforeClass
-    public void beforeClass(){
+    public void beforeClass(ITestContext iTestContext){
+        if(null == iTestContext.getAttribute("driver")) {
+            driver = new FirefoxDriver();
+            iTestContext.setAttribute("driver", driver);
+        } else {
+            driver = (WebDriver) iTestContext.getAttribute("driver");
+        }
+
+        wait = new WebDriverWait(driver, 5);
+
+        googleOR = new GoogleOR(driver, wait);
+        facebookOR = new FacebookOR(driver, wait);
     }
 
     @AfterClass
