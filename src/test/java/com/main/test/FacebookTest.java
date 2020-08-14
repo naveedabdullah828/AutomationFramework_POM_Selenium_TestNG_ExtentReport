@@ -1,6 +1,7 @@
 package com.main.test;
 
 import com.main.utils.HelperClass;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class FacebookTest extends TestBase {
@@ -18,5 +19,6 @@ public class FacebookTest extends TestBase {
     @Test(description = "Close the Sign Up Form Button")
     public void TC_103_closeSignUpForm() {
         facebookOR.closeSignUpForm();
+        Assert.assertTrue(false);
     }
 }
