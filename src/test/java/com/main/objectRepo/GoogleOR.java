@@ -7,22 +7,25 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestContext;
 
 public class GoogleOR {
     WebDriver driver;
     WebDriverWait wait;
+    ITestContext iTestContext;
+
+    public GoogleOR(ITestContext iTestContext) {
+        this.iTestContext = iTestContext;
+        this.driver = (WebDriver) this.iTestContext.getAttribute(Thread.currentThread().getId() + "_driver");
+        this.wait = (WebDriverWait) this.iTestContext.getAttribute(Thread.currentThread().getId() + "_wait");
+        PageFactory.initElements(driver,this);
+    }
 
     @FindBy(name = "q")
     WebElement searchInput;
 
     @FindBy(name = "btnK")
     WebElement btnClick;
-
-    public GoogleOR(WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
-        this.wait = wait;
-        PageFactory.initElements(driver,this);
-    }
 
     public void launchGoogle(String url) {
         driver.get(url);

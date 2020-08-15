@@ -3,6 +3,7 @@ package com.main.test;
 import com.main.listener.ReportListener;
 import com.main.objectRepo.FacebookOR;
 import com.main.objectRepo.GoogleOR;
+import com.main.objectRepo.SampleOR;
 import com.main.utils.HelperClass;
 
 import org.openqa.selenium.WebDriver;
@@ -22,6 +23,7 @@ public class TestBase extends ReportListener {
 
     GoogleOR googleOR;
     FacebookOR facebookOR;
+    SampleOR sampleOR;
 
     @BeforeSuite
     public void setup(ITestContext iTestContext) {
@@ -34,31 +36,30 @@ public class TestBase extends ReportListener {
 
     @AfterSuite
     public void tearDown(ITestContext iTestContext) {
-        driver.quit();
     }
 
     @BeforeTest
     public void beforeTest(final ITestContext iTestContext) {
+        if(null == iTestContext.getAttribute(Thread.currentThread().getId() + "_driver")) {
+            driver = new FirefoxDriver();
+            iTestContext.setAttribute(Thread.currentThread().getId() + "_driver", driver);
+        }
     }
 
     @AfterTest
     public void afterTest(final ITestContext iTestContext) {
-
+        driver.quit();
     }
 
     @BeforeClass
     public void beforeClass(ITestContext iTestContext){
-        if(null == iTestContext.getAttribute("driver")) {
-            driver = new FirefoxDriver();
-            iTestContext.setAttribute("driver", driver);
-        } else {
-            driver = (WebDriver) iTestContext.getAttribute("driver");
-        }
-
+        driver = (WebDriver) iTestContext.getAttribute(Thread.currentThread().getId() + "_driver");
         wait = new WebDriverWait(driver, 5);
 
-        googleOR = new GoogleOR(driver, wait);
-        facebookOR = new FacebookOR(driver, wait);
+        iTestContext.setAttribute(Thread.currentThread().getId()+"_wait",wait);
+        googleOR = new GoogleOR(iTestContext);
+        facebookOR = new FacebookOR(iTestContext);
+        sampleOR = new SampleOR(iTestContext);
     }
 
     @AfterClass

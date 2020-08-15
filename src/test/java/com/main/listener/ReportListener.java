@@ -18,7 +18,7 @@ public class ReportListener implements ITestListener {
     @Override
     public void onTestStart(ITestResult iTestResult) {
         extentReports = ExtentManager.getInstance();
-        extentTest = extentReports.createTest(iTestResult.getMethod().getMethodName());
+        extentTest = extentReports.createTest(Thread.currentThread().getId() + " " +iTestResult.getMethod().getMethodName());
         extentTest.log(Status.INFO, iTestResult.getMethod().getDescription());
     }
 
@@ -29,7 +29,7 @@ public class ReportListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
-        String imagePath = HelperClass.takeScreenshot((WebDriver) iTestResult.getTestContext().getAttribute("driver"),iTestResult.getMethod().getMethodName());
+        String imagePath = HelperClass.takeScreenshot((WebDriver) iTestResult.getTestContext().getAttribute(Thread.currentThread().getId() + "_driver"),Thread.currentThread().getId() + "_" + iTestResult.getMethod().getMethodName());
         extentTest.log(Status.FAIL,iTestResult.getName() + " Failed \n " + iTestResult.getThrowable());
         extentTest.addScreenCaptureFromPath(imagePath);
     }
