@@ -1,99 +1,98 @@
 package com.main.test;
 
 import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
+import com.main.listener.ReportListener;
 import com.main.objectRepo.FacebookOR;
 import com.main.objectRepo.GoogleOR;
-import com.main.reports.ExtentManager;
+import com.main.objectRepo.SampleOR;
 import com.main.utils.HelperClass;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.*;
 import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class TestBase {
-    public static WebDriver driver;
-    static WebDriverWait wait;
-
-    ExtentReports extentReports;
-    ExtentTest extentTest;
+    WebDriver driver;
+    WebDriverWait wait;
 
     static String fileSeparator;
     static String userDirectory;
 
-    static GoogleOR googleOR;
-    static FacebookOR facebookOR;
+    GoogleOR googleOR;
+    FacebookOR facebookOR;
+    SampleOR sampleOR;
 
-    @BeforeSuite
+    public static ThreadLocal<WebDriver> webDriverThreadLocal = new ThreadLocal<>();
+    public static ThreadLocal<WebDriverWait> webDriverWaitThreadLocal = new ThreadLocal<>();
+
+    @BeforeSuite(alwaysRun = true)
     public void setup(ITestContext iTestContext) {
         userDirectory = HelperClass.getUserDirectory();
         fileSeparator = HelperClass.getFileSeparator();
         String testDataPath = userDirectory + fileSeparator + "TestData" + fileSeparator + "TestData.properties";
         HelperClass.loadData(testDataPath);
         HelperClass.deleteAndCreateDirectory();
-
-        driver = new FirefoxDriver();
-        wait = new WebDriverWait(driver, 10);
-
-        googleOR = new GoogleOR(driver, wait);
-        facebookOR = new FacebookOR(driver, wait);
-
-        iTestContext.setAttribute("driver", driver);
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     public void tearDown(ITestContext iTestContext) {
-        driver.quit();
-        extentReports.flush();
     }
 
-    @BeforeTest
-    public void beforeTest(final ITestContext iTestContext) {
+    @BeforeTest(alwaysRun = true)
+    @Parameters("browser")
+    public void beforeTest(final ITestContext iTestContext, String browser) {
+        if ("firefox".equals(browser)) {
+            driver = new FirefoxDriver();
+        } else if ("chrome".equals(browser)) {
+            driver = new ChromeDriver();
+        } else {
+            driver = new FirefoxDriver();
+        }
+        webDriverThreadLocal.set(driver);
     }
 
-    @AfterTest
+    @AfterTest(alwaysRun = true)
     public void afterTest(final ITestContext iTestContext) {
-
+        if("tests".equals(iTestContext.getCurrentXmlTest().getParallel().toString())) {
+            ExtentReports individualTestReports = ReportListener.extentIndividualReportsThreadLocal.get();
+            individualTestReports.flush();
+        }
+        (webDriverThreadLocal.get()).quit();
     }
 
-    @BeforeClass
-    public void beforeClass(){
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass(ITestContext iTestContext){
+        driver = webDriverThreadLocal.get();
+        wait = new WebDriverWait(driver, 5);
+        webDriverWaitThreadLocal.set(wait);
+
+        googleOR = new GoogleOR(iTestContext);
+        facebookOR = new FacebookOR(iTestContext);
+        sampleOR = new SampleOR(iTestContext);
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void afterClass() {
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void beforeMethod(Method method, ITestResult iTestResult, ITestContext iTestContext) {
-        extentReports = ExtentManager.getInstance();
-        extentTest = extentReports.createTest(method.getName());
-        extentTest.log(Status.INFO, iTestResult.getMethod().getDescription());
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void afterMethod(ITestResult iTestResult) {
-        if(ITestResult.SUCCESS == iTestResult.getStatus()) {
-            extentTest.log(Status.PASS, iTestResult.getName() + " Passed");
-        } else if(ITestResult.SKIP == iTestResult.getStatus()) {
-            extentTest.log(Status.SKIP, iTestResult.getName() + " Skipped");
-        } else if(ITestResult.FAILURE == iTestResult.getStatus()) {
-            Path path = Paths.get(userDirectory);
-            String imagePath = fileSeparator + path.getFileName() + fileSeparator + "Screenshots" + fileSeparator + iTestResult.getName() + ".png";
-
-            extentTest.log(Status.FAIL,iTestResult.getName() + " Failed \n " + iTestResult.getThrowable());
-            extentTest.addScreenCaptureFromPath(imagePath);
-        }
     }
 
-    public WebDriver getDriver() {
-        return driver;
+    public static WebDriver getDriver() {
+        return webDriverThreadLocal.get();
+    }
+
+    public static WebDriverWait getWebDriverWait() {
+        return webDriverWaitThreadLocal.get();
     }
 }

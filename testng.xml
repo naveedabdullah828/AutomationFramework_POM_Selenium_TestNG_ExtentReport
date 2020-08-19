@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="MainSuite">
+<suite name="MainSuite" thread-count="3" parallel="none">
     <listeners>
         <listener class-name="com.main.listener.ReportListener"/>
-        <listener class-name="com.main.listener.RetryListner"/>
+<!--        <listener class-name="com.main.listener.RetryListner"/>-->
     </listeners>
-    <test name="MainTestLogin" thread-count="1">
+    <test name="System">
+        <parameter name="browser" value="firefox"/>
+        <groups>
+            <run>
+                <include name="System"/>
+            </run>
+        </groups>
         <classes>
             <class name="com.main.test.GoogleTest"/>
             <class name="com.main.test.FacebookTest"/>
+            <class name="com.main.test.SampleTest"/>
+        </classes>
+    </test>
+
+    <test name="Regression">
+        <parameter name="browser" value="chrome"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.main.test.GoogleTest"/>
+            <class name="com.main.test.FacebookTest"/>
+            <class name="com.main.test.SampleTest"/>
         </classes>
     </test>
 </suite>

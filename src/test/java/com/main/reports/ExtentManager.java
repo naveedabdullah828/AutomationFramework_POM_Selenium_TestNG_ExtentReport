@@ -3,7 +3,6 @@ package com.main.reports;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.main.utils.HelperClass;
-import java.io.File;
 
 public class ExtentManager {
     private static ExtentReports extentReports;
@@ -16,21 +15,34 @@ public class ExtentManager {
     public static ExtentReports getInstance() {
         if(null == extentReports)
             extentReports = createInstance();
-
         return extentReports;
     }
 
     private static ExtentReports createInstance() {
         ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(reportFileLocation);
-        extentReports = new ExtentReports();
+        ExtentReports individualTestReports = new ExtentReports();
 
         extentSparkReporter.config().setReportName("Automation Report");
         extentSparkReporter.config().setDocumentTitle("Automation Test Result");
 
-        extentReports.setSystemInfo("OS", "Mac");
-        extentReports.setSystemInfo("Environment", "Prod");
+        individualTestReports.setSystemInfo("OS", "Mac");
+        individualTestReports.setSystemInfo("Environment", "Prod");
 
-        extentReports.attachReporter(extentSparkReporter);
-        return extentReports;
+        individualTestReports.attachReporter(extentSparkReporter);
+        return individualTestReports;
+    }
+
+    public static ExtentReports createInstance(String fileName) {
+        ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(reportFilePath + fileSeparator + fileName + ".html");
+        ExtentReports extentIndividualReports = new ExtentReports();
+
+        extentSparkReporter.config().setReportName("Automation Report " + fileName);
+        extentSparkReporter.config().setDocumentTitle("Automation Test Result " + fileName);
+
+        extentIndividualReports.setSystemInfo("OS", "Mac");
+        extentIndividualReports.setSystemInfo("Environment", "Prod");
+
+        extentIndividualReports.attachReporter(extentSparkReporter);
+        return extentIndividualReports;
     }
 }

@@ -4,7 +4,7 @@ import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
 public class RetryFailedTest implements IRetryAnalyzer {
-    int maxRetryCount = 2;
+    int maxRetryCount = 1;
     int retryCount = 0;
     public static boolean retry = false;
     @Override
