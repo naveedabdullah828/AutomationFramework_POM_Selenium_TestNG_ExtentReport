@@ -20,9 +20,6 @@ public class TestBase {
     WebDriver driver;
     WebDriverWait wait;
 
-    static String fileSeparator;
-    static String userDirectory;
-
     GoogleOR googleOR;
     FacebookOR facebookOR;
     SampleOR sampleOR;
@@ -32,11 +29,8 @@ public class TestBase {
 
     @BeforeSuite(alwaysRun = true)
     public void setup(ITestContext iTestContext) {
-        userDirectory = HelperClass.getUserDirectory();
-        fileSeparator = HelperClass.getFileSeparator();
-        String testDataPath = userDirectory + fileSeparator + "TestData" + fileSeparator + "TestData.properties";
-        HelperClass.loadData(testDataPath);
         HelperClass.deleteAndCreateDirectory();
+        HelperClass.loadData();
     }
 
     @AfterSuite(alwaysRun = true)
@@ -58,7 +52,7 @@ public class TestBase {
 
     @AfterTest(alwaysRun = true)
     public void afterTest(final ITestContext iTestContext) {
-        if("tests".equals(iTestContext.getCurrentXmlTest().getParallel().toString())) {
+        if(HelperClass.isParallelTest(iTestContext)) {
             ExtentReports individualTestReports = ReportListener.extentIndividualReportsThreadLocal.get();
             individualTestReports.flush();
         }

@@ -28,7 +28,7 @@ public class ReportListener implements ITestListener {
         extentTestThreadLocal.set(extentTest);
         extentTestThreadLocal.get().log(Status.INFO, iTestResult.getMethod().getDescription());
 
-        if("tests".equals(context.getCurrentXmlTest().getParallel().toString())) {
+        if(HelperClass.isParallelTest(context)) {
             ExtentReports individualTestReports= extentIndividualReportsThreadLocal.get();
             ExtentTest individualExtentTest = individualTestReports.createTest(context.getName() + " " +iTestResult.getMethod().getMethodName());
             extentIndividualTestThreadLocal.set(individualExtentTest);
@@ -39,7 +39,7 @@ public class ReportListener implements ITestListener {
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
         extentTestThreadLocal.get().log(Status.PASS, iTestResult.getName() + " Passed");
-        if("tests".equals(context.getCurrentXmlTest().getParallel().toString())) {
+        if(HelperClass.isParallelTest(context)) {
             extentIndividualTestThreadLocal.get().log(Status.PASS, iTestResult.getName() + " Passed");
         }
     }
@@ -50,7 +50,7 @@ public class ReportListener implements ITestListener {
         extentTestThreadLocal.get().log(Status.FAIL,iTestResult.getName() + " Failed " + iTestResult.getThrowable());
         extentTestThreadLocal.get().addScreenCaptureFromPath(imagePath);
 
-        if("tests".equals(context.getCurrentXmlTest().getParallel().toString())) {
+        if(HelperClass.isParallelTest(context)) {
             extentIndividualTestThreadLocal.get().log(Status.FAIL,iTestResult.getName() + " Failed " + iTestResult.getThrowable());
             extentIndividualTestThreadLocal.get().addScreenCaptureFromPath(imagePath);
         }
@@ -59,17 +59,16 @@ public class ReportListener implements ITestListener {
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
         extentTestThreadLocal.get().log(Status.SKIP, iTestResult.getName() + " Skipped");
-        if("tests".equals(context.getCurrentXmlTest().getParallel().toString())) {
+        if(HelperClass.isParallelTest(context)) {
             extentIndividualTestThreadLocal.get().log(Status.SKIP, iTestResult.getName() + " Skipped");
         }
     }
 
     @Override
     public void onStart(ITestContext context) {
-        String parallel = context.getCurrentXmlTest().getParallel().toString();
         extentReports = ExtentManager.getInstance();
 
-        if("tests".equals(parallel)) {
+        if(HelperClass.isParallelTest(context)) {
             ExtentReports individualTestReports = ExtentManager.createInstance(context.getName());
             extentIndividualReportsThreadLocal.set(individualTestReports);
         }
