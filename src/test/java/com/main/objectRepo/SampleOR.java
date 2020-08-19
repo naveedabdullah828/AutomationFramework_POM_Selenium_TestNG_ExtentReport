@@ -1,5 +1,6 @@
 package com.main.objectRepo;
 
+import com.main.test.TestBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,8 +15,8 @@ public class SampleOR {
 
     public SampleOR(ITestContext iTestContext) {
         this.iTestContext = iTestContext;
-        driver = (WebDriver) iTestContext.getAttribute(Thread.currentThread().getId() + "_driver");
-        wait = (WebDriverWait) iTestContext.getAttribute(Thread.currentThread().getId() + "_wait");
+        this.driver = TestBase.getDriver();
+        this.wait = TestBase.getWebDriverWait();
         PageFactory.initElements(driver,this);
     }
 

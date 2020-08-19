@@ -1,5 +1,6 @@
 package com.main.objectRepo;
 
+import com.main.test.TestBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,8 +16,8 @@ public class FacebookOR {
 
     public FacebookOR(ITestContext iTestContext) {
         this.iTestContext = iTestContext;
-        this.driver = (WebDriver) this.iTestContext.getAttribute(Thread.currentThread().getId() + "_driver");
-        this.wait = (WebDriverWait) this.iTestContext.getAttribute(Thread.currentThread().getId() + "_wait");
+        this.driver = TestBase.getDriver();
+        this.wait = TestBase.getWebDriverWait();
         PageFactory.initElements(driver, this);
     }
 

@@ -3,14 +3,14 @@ package com.main.test;
 import com.main.utils.HelperClass;
 import org.testng.annotations.*;
 
-
+@Test(groups = "System")
 public class SampleTest extends TestBase{
-    @Test(description = "Launch Site")
+    @Test(description = "Launch Site", groups = "Regression")
     public void TC_201_launchSite(){
         sampleOR.launchURL(HelperClass.testData.getProperty("sampleSiteUrl"));
     }
 
-    @Test(description = "Enter username")
+    @Test(description = "Enter username", groups = "Regression")
     public void TC_202_enterUserName(){
         sampleOR.enterUsername(HelperClass.testData.getProperty("username"));
     }

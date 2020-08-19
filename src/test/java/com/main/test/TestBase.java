@@ -1,5 +1,6 @@
 package com.main.test;
 
+import com.aventstack.extentreports.ExtentReports;
 import com.main.listener.ReportListener;
 import com.main.objectRepo.FacebookOR;
 import com.main.objectRepo.GoogleOR;
@@ -7,6 +8,7 @@ import com.main.objectRepo.SampleOR;
 import com.main.utils.HelperClass;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.*;
@@ -14,7 +16,7 @@ import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 
-public class TestBase extends ReportListener {
+public class TestBase {
     WebDriver driver;
     WebDriverWait wait;
 
@@ -25,7 +27,10 @@ public class TestBase extends ReportListener {
     FacebookOR facebookOR;
     SampleOR sampleOR;
 
-    @BeforeSuite
+    public static ThreadLocal<WebDriver> webDriverThreadLocal = new ThreadLocal<>();
+    public static ThreadLocal<WebDriverWait> webDriverWaitThreadLocal = new ThreadLocal<>();
+
+    @BeforeSuite(alwaysRun = true)
     public void setup(ITestContext iTestContext) {
         userDirectory = HelperClass.getUserDirectory();
         fileSeparator = HelperClass.getFileSeparator();
@@ -34,47 +39,60 @@ public class TestBase extends ReportListener {
         HelperClass.deleteAndCreateDirectory();
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     public void tearDown(ITestContext iTestContext) {
     }
 
-    @BeforeTest
-    public void beforeTest(final ITestContext iTestContext) {
-        if(null == iTestContext.getAttribute(Thread.currentThread().getId() + "_driver")) {
+    @BeforeTest(alwaysRun = true)
+    @Parameters("browser")
+    public void beforeTest(final ITestContext iTestContext, String browser) {
+        if ("firefox".equals(browser)) {
             driver = new FirefoxDriver();
-            iTestContext.setAttribute(Thread.currentThread().getId() + "_driver", driver);
+        } else if ("chrome".equals(browser)) {
+            driver = new ChromeDriver();
+        } else {
+            driver = new FirefoxDriver();
         }
+        webDriverThreadLocal.set(driver);
     }
 
-    @AfterTest
+    @AfterTest(alwaysRun = true)
     public void afterTest(final ITestContext iTestContext) {
-        driver.quit();
+        if("tests".equals(iTestContext.getCurrentXmlTest().getParallel().toString())) {
+            ExtentReports individualTestReports = ReportListener.extentIndividualReportsThreadLocal.get();
+            individualTestReports.flush();
+        }
+        (webDriverThreadLocal.get()).quit();
     }
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext iTestContext){
-        driver = (WebDriver) iTestContext.getAttribute(Thread.currentThread().getId() + "_driver");
+        driver = webDriverThreadLocal.get();
         wait = new WebDriverWait(driver, 5);
+        webDriverWaitThreadLocal.set(wait);
 
-        iTestContext.setAttribute(Thread.currentThread().getId()+"_wait",wait);
         googleOR = new GoogleOR(iTestContext);
         facebookOR = new FacebookOR(iTestContext);
         sampleOR = new SampleOR(iTestContext);
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void afterClass() {
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void beforeMethod(Method method, ITestResult iTestResult, ITestContext iTestContext) {
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void afterMethod(ITestResult iTestResult) {
     }
 
-    public WebDriver getDriver() {
-        return driver;
+    public static WebDriver getDriver() {
+        return webDriverThreadLocal.get();
+    }
+
+    public static WebDriverWait getWebDriverWait() {
+        return webDriverWaitThreadLocal.get();
     }
 }
