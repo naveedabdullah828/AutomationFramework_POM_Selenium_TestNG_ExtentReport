@@ -10,6 +10,7 @@ import com.main.utils.HelperClass;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import org.testng.xml.XmlSuite;
 
 public class ReportListener implements ITestListener {
     public ExtentReports extentReports;
@@ -24,13 +25,16 @@ public class ReportListener implements ITestListener {
     @Override
     public void onTestStart(ITestResult iTestResult) {
         context = iTestResult.getTestContext();
-        extentTest = extentReports.createTest(context.getName() + " " +iTestResult.getMethod().getMethodName());
+        if(TestBase.retryStatusThread.get().get()) {
+            extentReports.removeTest(extentTestThreadLocal.get());
+        }
+        extentTest = extentReports.createTest(context.getAttribute("testName").toString() + " " +iTestResult.getMethod().getMethodName());
         extentTestThreadLocal.set(extentTest);
         extentTestThreadLocal.get().log(Status.INFO, iTestResult.getMethod().getDescription());
 
         if(HelperClass.isParallelTest(context)) {
             ExtentReports individualTestReports= extentIndividualReportsThreadLocal.get();
-            ExtentTest individualExtentTest = individualTestReports.createTest(context.getName() + " " +iTestResult.getMethod().getMethodName());
+            ExtentTest individualExtentTest = individualTestReports.createTest(context.getAttribute("testName").toString() + " " +iTestResult.getMethod().getMethodName());
             extentIndividualTestThreadLocal.set(individualExtentTest);
             extentIndividualTestThreadLocal.get().log(Status.INFO, iTestResult.getMethod().getDescription());
         }
@@ -46,7 +50,7 @@ public class ReportListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
-        String imagePath = HelperClass.takeScreenshot(TestBase.getDriver(),context.getName() + "_" + iTestResult.getMethod().getMethodName());
+        String imagePath = HelperClass.takeScreenshot(TestBase.getDriver(),context.getAttribute("testName").toString() + "_" + iTestResult.getMethod().getMethodName());
         extentTestThreadLocal.get().log(Status.FAIL,iTestResult.getName() + " Failed " + iTestResult.getThrowable());
         extentTestThreadLocal.get().addScreenCaptureFromPath(imagePath);
 
@@ -66,10 +70,16 @@ public class ReportListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        extentReports = ExtentManager.getInstance();
+        XmlSuite suiteName = context.getCurrentXmlTest().getSuite();
+        String xmlFilePath = suiteName.getFileName();
+        String[] paths = xmlFilePath.split(HelperClass.getFileSeparator());
+        String xmlFileName = paths[paths.length - 1];
+
+        context.setAttribute("testName", context.getName().replace("(failed)", "").trim());
+        extentReports = ExtentManager.getInstance(xmlFileName);
 
         if(HelperClass.isParallelTest(context)) {
-            ExtentReports individualTestReports = ExtentManager.createInstance(context.getName());
+            ExtentReports individualTestReports = ExtentManager.createInstance(context.getAttribute("testName").toString(), xmlFileName);
             extentIndividualReportsThreadLocal.set(individualTestReports);
         }
     }

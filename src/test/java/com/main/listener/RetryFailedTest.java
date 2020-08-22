@@ -1,19 +1,21 @@
 package com.main.listener;
 
+import com.main.test.TestBase;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RetryFailedTest implements IRetryAnalyzer {
-    int maxRetryCount = 1;
+    int maxRetryCount = 2;
     int retryCount = 0;
-    public static boolean retry = false;
     @Override
-    public boolean retry(ITestResult result) {
+    synchronized public boolean retry(ITestResult result) {
         if (retryCount < maxRetryCount) {
             retryCount++;
-            retry = true;
+            TestBase.retryStatusThread.set(new AtomicBoolean(true));
             return true;
         }
+        TestBase.retryStatusThread.set(new AtomicBoolean(false));
         return false;
     }
 }

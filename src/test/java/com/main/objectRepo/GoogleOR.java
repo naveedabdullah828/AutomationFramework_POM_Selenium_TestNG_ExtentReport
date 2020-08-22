@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestContext;
 
@@ -28,22 +29,27 @@ public class GoogleOR {
     @FindBy(name = "btnK")
     WebElement btnClick;
 
+    @FindBy(css = "button.Tg7LZd[type='submit']")
+    WebElement btnClickSecondScreen;
+
     public void launchGoogle(String url) {
         driver.get(url);
     }
 
     public void enterText(String input){
+        wait.until(ExpectedConditions.visibilityOf(searchInput));
         searchInput.clear();
         searchInput.sendKeys(input);
         searchInput.sendKeys(Keys.ESCAPE);
     }
 
     public void clickSearch() {
-        try {
-            btnClick.click();
-        } catch (ElementNotInteractableException exception) {
-            if(searchInput.isDisplayed())
-                searchInput.sendKeys(Keys.ENTER);
-        }
+        wait.until(ExpectedConditions.visibilityOf(btnClick));
+        btnClick.click();
+    }
+
+    public void clickSecondButton() {
+        wait.until(ExpectedConditions.visibilityOf(btnClickSecondScreen));
+        btnClickSecondScreen.click();
     }
 }

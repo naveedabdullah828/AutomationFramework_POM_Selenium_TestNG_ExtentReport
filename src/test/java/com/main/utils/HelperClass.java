@@ -5,6 +5,8 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
+import org.testng.ITestNGMethod;
+import org.testng.xml.XmlSuite.ParallelMode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,11 +14,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Properties;
+import java.util.*;
+
 
 public class HelperClass {
 
     public static Properties testData;
+    public static List<ITestNGMethod> retriedTest = new LinkedList<>();
 
     public static String takeScreenshot(WebDriver driver, String screenshotName) {
         String userDirectory = getUserDirectory();
@@ -76,7 +80,7 @@ public class HelperClass {
     }
 
     public static boolean isParallelTest(ITestContext iTestContext) {
-        if("tests".equals(iTestContext.getCurrentXmlTest().getParallel()))
+        if(ParallelMode.TESTS.equals(iTestContext.getCurrentXmlTest().getParallel()))
             return true;
         else
             return false;

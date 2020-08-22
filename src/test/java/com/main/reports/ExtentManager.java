@@ -10,34 +10,42 @@ public class ExtentManager {
     private static String fileSeparator = HelperClass.getFileSeparator();
     private static String userDirectory = HelperClass.getUserDirectory();
     private static String reportFilePath = userDirectory + fileSeparator + "TestReport";
-    private static String reportFileLocation = reportFilePath + fileSeparator + reportFileName;
 
-    public static ExtentReports getInstance() {
+    public static ExtentReports getInstance(String xmlFileName) {
+        if (!xmlFileName.equalsIgnoreCase("testng.xml")) {
+            reportFileName = "Test-Automation-Failed-Rerun-Report.html";
+        }
         if(null == extentReports)
             extentReports = createInstance();
+
         return extentReports;
     }
 
     private static ExtentReports createInstance() {
+        String reportFileLocation = reportFilePath + fileSeparator + reportFileName;
         ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(reportFileLocation);
         ExtentReports individualTestReports = new ExtentReports();
 
         extentSparkReporter.config().setReportName("Automation Report");
         extentSparkReporter.config().setDocumentTitle("Automation Test Result");
 
-        individualTestReports.setSystemInfo("OS", "Mac");
-        individualTestReports.setSystemInfo("Environment", "Prod");
+        individualTestReports.setSystemInfo("OS", "Mac1");
+        individualTestReports.setSystemInfo("Environment", "Prod1");
 
         individualTestReports.attachReporter(extentSparkReporter);
         return individualTestReports;
     }
 
-    public static ExtentReports createInstance(String fileName) {
-        ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(reportFilePath + fileSeparator + fileName + ".html");
+    public static ExtentReports createInstance(String testName, String xmlFileName) {
+        if(xmlFileName.equalsIgnoreCase("testng-failed.xml")) {
+            testName = testName.replace("(failed)", "").trim();
+            testName = testName + "-Failed";
+        }
+        ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(reportFilePath + fileSeparator + testName + ".html");
         ExtentReports extentIndividualReports = new ExtentReports();
 
-        extentSparkReporter.config().setReportName("Automation Report " + fileName);
-        extentSparkReporter.config().setDocumentTitle("Automation Test Result " + fileName);
+        extentSparkReporter.config().setReportName("Automation Report " + testName);
+        extentSparkReporter.config().setDocumentTitle("Automation Test Result " + testName);
 
         extentIndividualReports.setSystemInfo("OS", "Mac");
         extentIndividualReports.setSystemInfo("Environment", "Prod");
