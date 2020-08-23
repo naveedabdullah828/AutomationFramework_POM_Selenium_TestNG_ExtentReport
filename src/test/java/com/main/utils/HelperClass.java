@@ -23,12 +23,11 @@ public class HelperClass {
     public static List<ITestNGMethod> retriedTest = new LinkedList<>();
 
     public static String takeScreenshot(WebDriver driver, String screenshotName) {
-        String userDirectory = getUserDirectory();
         String fileSeparator = getFileSeparator();
 
         TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
         File source = takesScreenshot.getScreenshotAs(OutputType.FILE);
-        String destination = userDirectory + fileSeparator + "Screenshots" + fileSeparator + screenshotName +".png";
+        String destination = "." + fileSeparator + "TestReport" + fileSeparator + "Screenshots" + fileSeparator + screenshotName +".png";
         File destinationFile = new File(destination);
         try {
             FileUtils.copyFile(source, destinationFile);
@@ -37,9 +36,8 @@ public class HelperClass {
             System.err.println("File Copy Failed " + e.getMessage());
         }
 
-        Path path = Paths.get(userDirectory);
-        String imagePath = fileSeparator + path.getFileName() + fileSeparator + "Screenshots" + fileSeparator + screenshotName + ".png";
-        return imagePath;
+        destination = "."+ fileSeparator + "Screenshots" + fileSeparator + screenshotName + ".png";
+        return destination;
     }
 
     public static void loadData() {
@@ -59,7 +57,8 @@ public class HelperClass {
     }
 
     public static void deleteAndCreateDirectory() {
-        File file = new File(getUserDirectory() + getFileSeparator() + "Screenshots");
+        File file = new File(getUserDirectory() + getFileSeparator() +"TestReport" + getFileSeparator() + "Screenshots");
+        System.out.println("File path " + file.getPath());
         try {
             if (file.exists()) {
                 FileUtils.cleanDirectory(file);
