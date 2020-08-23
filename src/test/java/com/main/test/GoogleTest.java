@@ -33,7 +33,7 @@ public class GoogleTest extends TestBase {
     public void TC_005_clickTest() {
         ReportListener.extentTestThreadLocal.get().log(Status.INFO, "Step Info " + testBaseTestContext.getAttribute("testName"));
         if(testBaseTestContext.getAttribute("testName").toString().equalsIgnoreCase("Regression")) {
-            Assert.fail();
+            //Assert.fail();
         }
     }
 
@@ -43,6 +43,6 @@ public class GoogleTest extends TestBase {
         googleOR.enterText("Naveed");
         ReportListener.extentTestThreadLocal.get().log(Status.INFO, "Step Info " + testBaseTestContext.getAttribute("testName"));
         googleOR.clickSecondButton();
-        Assert.assertTrue(false);
+        //Assert.assertTrue(false);
     }
 }
