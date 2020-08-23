@@ -4,6 +4,9 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestContext;
+import org.testng.ITestNGMethod;
+import org.testng.xml.XmlSuite.ParallelMode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,10 +15,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.*;
 
 public class HelperClass {
 
     public static Properties testData;
+    public static List<ITestNGMethod> retriedTest = new LinkedList<>();
 
     public static String takeScreenshot(WebDriver driver, String screenshotName) {
         String userDirectory = getUserDirectory();
@@ -37,10 +42,13 @@ public class HelperClass {
         return imagePath;
     }
 
-    public static void loadData(String path) {
+    public static void loadData() {
+        String userDirectory = HelperClass.getUserDirectory();
+        String fileSeparator = HelperClass.getFileSeparator();
+        String testDataPath = userDirectory + fileSeparator + "TestData" + fileSeparator + "TestData.properties";
         FileInputStream fileInputStream;
         try {
-            fileInputStream = new FileInputStream(path);
+            fileInputStream = new FileInputStream(testDataPath);
             testData = new Properties();
             testData.load(fileInputStream);
         } catch (FileNotFoundException e) {
@@ -69,5 +77,12 @@ public class HelperClass {
 
     public static String getUserDirectory() {
         return System.getProperty("user.dir");
+    }
+
+    public static boolean isParallelTest(ITestContext iTestContext) {
+        if(ParallelMode.TESTS.equals(iTestContext.getCurrentXmlTest().getParallel()))
+            return true;
+        else
+            return false;
     }
 }
