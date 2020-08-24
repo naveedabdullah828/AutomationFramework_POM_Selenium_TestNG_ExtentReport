@@ -34,6 +34,7 @@ public class TestBase {
 
     @BeforeSuite(alwaysRun = true)
     public void setup(ITestContext iTestContext) {
+        HelperClass.setDriverPathForWindows();
         HelperClass.deleteAndCreateDirectory();
         HelperClass.loadData();
     }

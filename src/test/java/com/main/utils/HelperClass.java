@@ -71,7 +71,14 @@ public class HelperClass {
     }
 
     public static String getFileSeparator() {
+        if(getOS().contains("Windows")){
+            return "\\\\";
+        }
         return System.getProperty("file.separator");
+    }
+
+    private static String getOS() {
+        return System.getProperty("os.name");
     }
 
     public static String getUserDirectory() {
@@ -83,5 +90,12 @@ public class HelperClass {
             return true;
         else
             return false;
+    }
+
+    public static void setDriverPathForWindows() {
+        if(getOS().contains("Windows")){
+            System.setProperty("webdriver.chrome.driver",".\\Driver\\chromedriver.exe");
+            System.setProperty("webdriver.gecko.driver",".\\Driver\\geckodriver.exe");
+        }
     }
 }
