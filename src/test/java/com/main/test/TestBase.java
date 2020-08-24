@@ -69,7 +69,7 @@ public class TestBase {
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext iTestContext){
         driver = webDriverThreadLocal.get();
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, 10);
         webDriverWaitThreadLocal.set(wait);
 
         retryFailedTest = new RetryFailedTest();
