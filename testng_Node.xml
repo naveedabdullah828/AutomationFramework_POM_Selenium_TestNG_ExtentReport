@@ -14,7 +14,7 @@
         </classes>
     </test>
     <test name="Test3">
-        <parameter name="node" value=" http://192.168.0.113:5568/wd/hub"/>
+        <parameter name="node" value=" http://192.168.0.116:5568/wd/hub"/>
         <classes>
             <class name="com.main.test.HubNodeTest" />
         </classes>
