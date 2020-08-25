@@ -38,7 +38,7 @@ public class HubNodeTest {
             ds.setPlatform(Platform.ANY);
         }
 
-        value = "http://192.168.0.113:4444/wd/hub"; // server
+        //value = "http://192.168.0.113:4444/wd/hub"; // server
         //value = "http://192.168.0.113:5566/wd/hub";
 
         driver=new RemoteWebDriver(new URL(value),ds);
