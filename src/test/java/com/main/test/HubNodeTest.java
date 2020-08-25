@@ -19,25 +19,36 @@ import org.testng.annotations.Test;
 public class HubNodeTest {
     WebDriver driver;
     @BeforeTest
-    @Parameters("node")
-    public void beforeTest(String value) throws MalformedURLException
+    @Parameters({"node", "browser", "os"})
+    public void beforeTest(String value, String browser, String osValue) throws MalformedURLException
     {
-//        DesiredCapabilities ds=DesiredCapabilities.chrome();
-//        ds.setPlatform(Platform.ANY);
-        //value = "http://192.168.0.113:4444/wd/hub"; // server
+        System.out.println("Values " + value + " " + browser + " " + osValue);
+        DesiredCapabilities ds;
+        if(browser.equals("firefox")) {
+            ds = DesiredCapabilities.firefox();
+        } else if (browser.equals("chrome")) {
+            ds = DesiredCapabilities.chrome();
+        } else {
+            ds = DesiredCapabilities.firefox();
+        }
+
+        if(osValue.equals("MAC")) {
+            ds.setPlatform(Platform.MAC);
+        } else {
+            ds.setPlatform(Platform.ANY);
+        }
+
+        value = "http://192.168.0.113:4444/wd/hub"; // server
         //value = "http://192.168.0.113:5566/wd/hub";
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        //chromeOptions.merge(ds);
-
-        driver=new RemoteWebDriver(new URL(value),chromeOptions);
-        driver.manage().window().maximize();
+        driver=new RemoteWebDriver(new URL(value),ds);
         driver.get("http://demowebshop.tricentis.com/login");
+        driver.manage().window().maximize();
     }
     @AfterTest
     public void afterTest()
     {
-        //driver.close();
+        driver.close();
     }
     @Test(dataProvider="dp1")
     public void testValidUsersDemoWebShop(String username,String password)
