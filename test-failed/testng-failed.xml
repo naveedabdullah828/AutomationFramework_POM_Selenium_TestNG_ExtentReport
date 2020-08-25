@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite thread-count="2" parallel="tests" name="Failed suite [MainSuite]" guice-stage="DEVELOPMENT">
+  <parameter name="automationType" value="none"/>
   <listeners>
     <listener class-name="com.main.listener.ReportListener"/>
   </listeners>
+  <test thread-count="2" parallel="tests" name="Regression(failed)">
+    <parameter name="os" value="mac"/>
+    <parameter name="browser" value="chrome"/>
+    <groups>
+      <run>
+        <include name="System"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.main.test.GoogleTest">
+        <methods>
+          <include name="TC_003_failTest"/>
+          <include name="beforeMethod"/>
+          <include name="TC_004_clickTest"/>
+          <include name="beforeClass"/>
+          <include name="afterTest"/>
+          <include name="TC_001_launchGoogle"/>
+          <include name="setup"/>
+          <include name="beforeTest"/>
+          <include name="afterMethod"/>
+          <include name="tearDown"/>
+          <include name="TC_002_enterText"/>
+          <include name="afterClass"/>
+        </methods>
+      </class> <!-- com.main.test.GoogleTest -->
+    </classes>
+  </test> <!-- Regression(failed) -->
   <test thread-count="2" parallel="tests" name="System(failed)">
+    <parameter name="os" value="mac"/>
     <parameter name="browser" value="firefox"/>
     <groups>
       <run>
@@ -15,17 +44,17 @@
       <class name="com.main.test.GoogleTest">
         <methods>
           <include name="TC_003_failTest"/>
-          <include name="afterTest"/>
           <include name="beforeMethod"/>
           <include name="TC_004_clickTest"/>
+          <include name="beforeClass"/>
+          <include name="afterTest"/>
+          <include name="TC_001_launchGoogle"/>
           <include name="setup"/>
           <include name="beforeTest"/>
           <include name="afterMethod"/>
           <include name="tearDown"/>
-          <include name="afterClass"/>
-          <include name="TC_001_launchGoogle"/>
-          <include name="beforeClass"/>
           <include name="TC_002_enterText"/>
+          <include name="afterClass"/>
         </methods>
       </class> <!-- com.main.test.GoogleTest -->
     </classes>
