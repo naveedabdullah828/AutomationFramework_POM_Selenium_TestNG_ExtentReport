@@ -3,7 +3,10 @@ package com.main.baseSetup;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -13,14 +16,21 @@ import java.net.URL;
 public class DriverFactory {
     WebDriver driver;
     public WebDriver createDriverGrid(String browser, String osValue) {
-        DesiredCapabilities capabilities;
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        ChromeOptions chromeOptions = null;
+        FirefoxOptions firefoxOptions = null;
         switch (browser.toLowerCase()) {
             case "chrome" :
-                capabilities = DesiredCapabilities.chrome();
+                chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--whitelisted-ips=''");
+                capabilities.setBrowserName(BrowserType.CHROME);
+                chromeOptions.merge(capabilities);
                 break;
 
             case "firefox":
-                capabilities = DesiredCapabilities.firefox();
+                firefoxOptions = new FirefoxOptions();
+                capabilities.setBrowserName(BrowserType.FIREFOX);
+                firefoxOptions.merge(capabilities);
                 break;
             default :
                 capabilities = null;
@@ -41,15 +51,26 @@ public class DriverFactory {
                 System.out.println("In Android " + System.getProperty("webdriver.chrome.driver"));
                 break;
 
-            default:
-                capabilities.setPlatform(Platform.ANY);
+            case "windows":
+                System.out.println("In windows");
+                capabilities.setCapability("platformName","WIN10");
+                capabilities.setCapability("platform","WIN10");
+                //capabilities.setPlatform(Platform.WIN10);
+                break;
         }
 
-        String url = "http://192.168.0.113:4444/wd/hub"; // server
-        //value = "http://192.168.0.113:5566/wd/hub";
+        String url = "http://192.168.0.113:4444/wd/hub"; // serve
+        //url = "http://192.168.0.116:5568/wd/hub";
 
         try {
-            driver = new RemoteWebDriver(new URL(url),capabilities);
+            if(browser.equalsIgnoreCase("chrome") && !osValue.equalsIgnoreCase("mac")) {
+                driver = new RemoteWebDriver(new URL(url),chromeOptions);
+            } else if (browser.equalsIgnoreCase("firefox") && !osValue.equalsIgnoreCase("mac")) {
+                driver = new RemoteWebDriver(new URL(url), firefoxOptions);
+            } else {
+                driver = new RemoteWebDriver(new URL(url),capabilities);
+            }
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

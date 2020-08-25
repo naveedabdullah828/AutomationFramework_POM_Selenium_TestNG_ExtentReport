@@ -1,28 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="MainSuite" thread-count="2" parallel="tests">
+<suite name="MainSuite" thread-count="4" parallel="tests">
     <listeners>
         <listener class-name="com.main.listener.ReportListener"/>
 <!--        <listener class-name="com.main.listener.RetryListner"/>-->
     </listeners>
-    <parameter name="automationType" value="none"/>
-<!--    <test name="System">-->
-<!--        <parameter name="browser" value="firefox"/>-->
-<!--        <parameter name="os" value="mac"/>-->
-<!--&lt;!&ndash;        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>&ndash;&gt;-->
-<!--        <groups>-->
-<!--            <run>-->
-<!--                <include name="System"/>-->
-<!--            </run>-->
-<!--        </groups>-->
-<!--        <classes>-->
-<!--            <class name="com.main.test.GoogleTest"/>-->
-<!--&lt;!&ndash;            <class name="com.main.test.FacebookTest"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            <class name="com.main.test.SampleTest"/>&ndash;&gt;-->
-<!--        </classes>-->
-<!--    </test>-->
+    <parameter name="automationType" value="grid"/>
+    <test name="System Windows chrome">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="os" value="windows"/>
+<!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
+        <groups>
+            <run>
+                <include name="System"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.main.test.GoogleTest"/>
+            <!--            <class name="com.main.test.FacebookTest"/>-->
+            <!--            <class name="com.main.test.SampleTest"/>-->
+        </classes>
+    </test>
 
-    <test name="System Mac">
+    <test name="System Windows firefox">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="os" value="windows"/>
+        <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
+        <groups>
+            <run>
+                <include name="System"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.main.test.GoogleTest"/>
+            <!--            <class name="com.main.test.FacebookTest"/>-->
+            <!--            <class name="com.main.test.SampleTest"/>-->
+        </classes>
+    </test>
+
+    <test name="System Mac chrome">
         <parameter name="browser" value="chrome"/>
         <parameter name="os" value="mac"/>
         <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
@@ -38,9 +54,9 @@
         </classes>
     </test>
 
-    <test name="System Windows">
+    <test name="System Mac firefox">
         <parameter name="browser" value="firefox"/>
-        <parameter name="os" value="windows"/>
+        <parameter name="os" value="mac"/>
         <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
         <groups>
             <run>
@@ -59,7 +75,7 @@
 <!--        <parameter name="os" value="mac"/>-->
 <!--        <groups>-->
 <!--            <run>-->
-<!--                <include name="System"/>-->
+<!--                <include name="Regression"/>-->
 <!--            </run>-->
 <!--        </groups>-->
 <!--        <classes>-->

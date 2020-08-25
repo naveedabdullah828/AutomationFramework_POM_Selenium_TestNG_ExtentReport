@@ -92,7 +92,6 @@ public class HelperClass {
     }
 
     public static void setDriverPathForWindows() {
-        System.out.println("GetOS " + getUserDirectory());
         if(getOS().toLowerCase().contains("windows")) {
             System.setProperty("webdriver.chrome.driver",getUserDirectory() + "/Driver/chromedriver.exe");
             System.setProperty("webdriver.gecko.driver",getUserDirectory() + "/Driver/geckodriver.exe");
