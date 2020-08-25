@@ -6,11 +6,26 @@
 <!--        <listener class-name="com.main.listener.RetryListner"/>-->
     </listeners>
     <parameter name="automationType" value="none"/>
+<!--    <test name="System">-->
+<!--        <parameter name="browser" value="firefox"/>-->
+<!--        <parameter name="os" value="mac"/>-->
+<!--&lt;!&ndash;        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>&ndash;&gt;-->
+<!--        <groups>-->
+<!--            <run>-->
+<!--                <include name="System"/>-->
+<!--            </run>-->
+<!--        </groups>-->
+<!--        <classes>-->
+<!--            <class name="com.main.test.GoogleTest"/>-->
+<!--&lt;!&ndash;            <class name="com.main.test.FacebookTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <class name="com.main.test.SampleTest"/>&ndash;&gt;-->
+<!--        </classes>-->
+<!--    </test>-->
+
     <test name="System">
-        <parameter name="browser" value="firefox"/>
- <!--        <parameter name="os" value="mac"/>-->
+        <parameter name="browser" value="chrome"/>
         <parameter name="os" value="mac"/>
-<!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
+        <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
         <groups>
             <run>
                 <include name="System"/>
@@ -18,14 +33,15 @@
         </groups>
         <classes>
             <class name="com.main.test.GoogleTest"/>
-<!--            <class name="com.main.test.FacebookTest"/>-->
-<!--            <class name="com.main.test.SampleTest"/>-->
+            <!--            <class name="com.main.test.FacebookTest"/>-->
+            <!--            <class name="com.main.test.SampleTest"/>-->
         </classes>
     </test>
 
-    <test name="Regression">
-        <parameter name="browser" value="chrome"/>
-        <parameter name="os" value="mac"/>
+    <test name="System">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="os" value="windows"/>
+        <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
         <groups>
             <run>
                 <include name="System"/>
@@ -33,8 +49,23 @@
         </groups>
         <classes>
             <class name="com.main.test.GoogleTest"/>
-<!--            <class name="com.main.test.FacebookTest"/>-->
-<!--            <class name="com.main.test.SampleTest"/>-->
+            <!--            <class name="com.main.test.FacebookTest"/>-->
+            <!--            <class name="com.main.test.SampleTest"/>-->
         </classes>
     </test>
+
+<!--    <test name="Regression">-->
+<!--        <parameter name="browser" value="chrome"/>-->
+<!--        <parameter name="os" value="mac"/>-->
+<!--        <groups>-->
+<!--            <run>-->
+<!--                <include name="System"/>-->
+<!--            </run>-->
+<!--        </groups>-->
+<!--        <classes>-->
+<!--            <class name="com.main.test.GoogleTest"/>-->
+<!--&lt;!&ndash;            <class name="com.main.test.FacebookTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <class name="com.main.test.SampleTest"/>&ndash;&gt;-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>
