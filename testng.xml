@@ -5,8 +5,12 @@
         <listener class-name="com.main.listener.ReportListener"/>
 <!--        <listener class-name="com.main.listener.RetryListner"/>-->
     </listeners>
+    <parameter name="automationType" value="none"/>
     <test name="System">
         <parameter name="browser" value="firefox"/>
+ <!--        <parameter name="os" value="mac"/>-->
+        <parameter name="os" value="mac"/>
+<!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
         <groups>
             <run>
                 <include name="System"/>
@@ -21,9 +25,10 @@
 
     <test name="Regression">
         <parameter name="browser" value="chrome"/>
+        <parameter name="os" value="mac"/>
         <groups>
             <run>
-                <include name="Regression"/>
+                <include name="System"/>
             </run>
         </groups>
         <classes>

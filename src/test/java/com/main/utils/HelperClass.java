@@ -58,7 +58,6 @@ public class HelperClass {
 
     public static void deleteAndCreateDirectory() {
         File file = new File(getUserDirectory() + getFileSeparator() +"TestReport" + getFileSeparator() + "Screenshots");
-        System.out.println("File path " + file.getPath());
         try {
             if (file.exists()) {
                 FileUtils.cleanDirectory(file);
@@ -93,9 +92,13 @@ public class HelperClass {
     }
 
     public static void setDriverPathForWindows() {
-        if(getOS().contains("Windows")){
-            System.setProperty("webdriver.chrome.driver",".\\Driver\\chromedriver.exe");
-            System.setProperty("webdriver.gecko.driver",".\\Driver\\geckodriver.exe");
+        System.out.println("GetOS " + getUserDirectory());
+        if(getOS().toLowerCase().contains("windows")) {
+            System.setProperty("webdriver.chrome.driver",getUserDirectory() + "/Driver/chromedriver.exe");
+            System.setProperty("webdriver.gecko.driver",getUserDirectory() + "/Driver/geckodriver.exe");
+        } else if (getOS().toLowerCase().contains("mac os")) {
+            System.setProperty("webdriver.chrome.driver",getUserDirectory() + "/Driver/chromedriver");
+            System.setProperty("webdriver.gecko.driver",getUserDirectory() + "/Driver/geckodriver");
         }
     }
 }

@@ -4,7 +4,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.main.reports.ExtentManager;
-import com.main.test.TestBase;
+import com.main.baseSetup.TestBase;
 import com.main.utils.HelperClass;
 
 import org.testng.ITestContext;

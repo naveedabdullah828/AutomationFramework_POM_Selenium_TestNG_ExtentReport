@@ -1,10 +1,11 @@
 package com.main.test;
 
+import com.main.baseSetup.TestBase;
 import com.main.utils.HelperClass;
 import org.testng.annotations.*;
 
 @Test(groups = "System")
-public class SampleTest extends TestBase{
+public class SampleTest extends TestBase {
     @Test(description = "Launch Site", groups = "Regression")
     public void TC_201_launchSite(){
         sampleOR.launchURL(HelperClass.testData.getProperty("sampleSiteUrl"));

@@ -1,7 +1,6 @@
 package com.main.objectRepo;
 
-import com.main.test.TestBase;
-import org.openqa.selenium.ElementNotInteractableException;
+import com.main.baseSetup.TestBase;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

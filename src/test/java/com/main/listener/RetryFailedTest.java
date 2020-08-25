@@ -1,6 +1,6 @@
 package com.main.listener;
 
-import com.main.test.TestBase;
+import com.main.baseSetup.TestBase;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 import java.util.concurrent.atomic.AtomicBoolean;
