@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite thread-count="2" parallel="tests" name="Failed suite [MainSuite]" guice-stage="DEVELOPMENT" verbose="0">
-  <parameter name="automationType" value="none"/>
+<suite thread-count="4" parallel="tests" name="Failed suite [MainSuite]" guice-stage="DEVELOPMENT">
+  <parameter name="automationType" value="grid"/>
   <listeners>
     <listener class-name="com.main.listener.ReportListener"/>
   </listeners>
-  <test thread-count="2" parallel="tests" name="System Mac(failed)" verbose="0">
+  <test thread-count="4" parallel="tests" name="System Mac chrome(failed)">
     <parameter name="os" value="mac"/>
     <parameter name="browser" value="chrome"/>
     <groups>
@@ -31,8 +31,62 @@
         </methods>
       </class> <!-- com.main.test.GoogleTest -->
     </classes>
-  </test> <!-- System Mac(failed) -->
-  <test thread-count="2" parallel="tests" name="System Windows(failed)" verbose="0">
+  </test> <!-- System Mac chrome(failed) -->
+  <test thread-count="4" parallel="tests" name="System Windows chrome(failed)">
+    <parameter name="os" value="windows"/>
+    <parameter name="browser" value="chrome"/>
+    <groups>
+      <run>
+        <include name="System"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.main.test.GoogleTest">
+        <methods>
+          <include name="TC_003_failTest"/>
+          <include name="beforeMethod"/>
+          <include name="TC_004_clickTest"/>
+          <include name="beforeClass"/>
+          <include name="afterTest"/>
+          <include name="TC_001_launchGoogle"/>
+          <include name="setup"/>
+          <include name="beforeTest"/>
+          <include name="afterMethod"/>
+          <include name="tearDown"/>
+          <include name="TC_002_enterText"/>
+          <include name="afterClass"/>
+        </methods>
+      </class> <!-- com.main.test.GoogleTest -->
+    </classes>
+  </test> <!-- System Windows chrome(failed) -->
+  <test thread-count="4" parallel="tests" name="System Mac firefox(failed)">
+    <parameter name="os" value="mac"/>
+    <parameter name="browser" value="firefox"/>
+    <groups>
+      <run>
+        <include name="System"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.main.test.GoogleTest">
+        <methods>
+          <include name="TC_003_failTest"/>
+          <include name="beforeMethod"/>
+          <include name="TC_004_clickTest"/>
+          <include name="beforeClass"/>
+          <include name="afterTest"/>
+          <include name="TC_001_launchGoogle"/>
+          <include name="setup"/>
+          <include name="beforeTest"/>
+          <include name="afterMethod"/>
+          <include name="tearDown"/>
+          <include name="TC_002_enterText"/>
+          <include name="afterClass"/>
+        </methods>
+      </class> <!-- com.main.test.GoogleTest -->
+    </classes>
+  </test> <!-- System Mac firefox(failed) -->
+  <test thread-count="4" parallel="tests" name="System Windows firefox(failed)">
     <parameter name="os" value="windows"/>
     <parameter name="browser" value="firefox"/>
     <groups>
@@ -58,5 +112,5 @@
         </methods>
       </class> <!-- com.main.test.GoogleTest -->
     </classes>
-  </test> <!-- System Windows(failed) -->
+  </test> <!-- System Windows firefox(failed) -->
 </suite> <!-- Failed suite [MainSuite] -->

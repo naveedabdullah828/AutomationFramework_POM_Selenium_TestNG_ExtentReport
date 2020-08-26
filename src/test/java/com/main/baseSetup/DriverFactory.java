@@ -59,8 +59,17 @@ public class DriverFactory {
                 break;
         }
 
-        String url = "http://192.168.0.113:4444/wd/hub"; // serve
+        String remoteHost =System.getProperty("remoteHost");
+        String url;
         //url = "http://192.168.0.116:5568/wd/hub";
+        if(remoteHost == null)
+            url = "http://192.168.0.113:4444/wd/hub"; // serve
+        else {
+            url = "http://"+remoteHost+":4444/wd/hub";
+            System.out.println("remote host from jenkins " + remoteHost);
+        }
+
+        System.out.println("Server url " + url);
 
         try {
             if(browser.equalsIgnoreCase("chrome") && !osValue.equalsIgnoreCase("mac")) {
