@@ -52,6 +52,8 @@ public class TestBase {
             driver = driverFactory.createDriver(browser);
         if(browser.equalsIgnoreCase("headless"))
             iTestContext.setAttribute("headless", driver.hashCode());
+        else
+            iTestContext.setAttribute("headless", 0);
 
         webDriverThreadLocal.set(driver);
         retryStatusThread.set(new AtomicBoolean(false));
