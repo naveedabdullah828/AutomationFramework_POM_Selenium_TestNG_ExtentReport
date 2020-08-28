@@ -5,7 +5,7 @@
         <listener class-name="com.main.listener.ReportListener"/>
 <!--        <listener class-name="com.main.listener.RetryListner"/>-->
     </listeners>
-    <parameter name="automationType" value="grid"/>
+    <parameter name="automationType" value="none"/>
     <test name="System Windows chrome">
         <parameter name="browser" value="chrome"/>
         <parameter name="os" value="windows"/>
@@ -22,53 +22,53 @@
         </classes>
     </test>
 
-    <test name="System Windows firefox">
-        <parameter name="browser" value="firefox"/>
-        <parameter name="os" value="windows"/>
-        <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
-        <groups>
-            <run>
-                <include name="System"/>
-            </run>
-        </groups>
-        <classes>
-            <class name="com.main.test.GoogleTest"/>
-            <!--            <class name="com.main.test.FacebookTest"/>-->
-            <!--            <class name="com.main.test.SampleTest"/>-->
-        </classes>
-    </test>
+<!--    <test name="System Windows firefox">-->
+<!--        <parameter name="browser" value="firefox"/>-->
+<!--        <parameter name="os" value="windows"/>-->
+<!--        &lt;!&ndash;        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>&ndash;&gt;-->
+<!--        <groups>-->
+<!--            <run>-->
+<!--                <include name="System"/>-->
+<!--            </run>-->
+<!--        </groups>-->
+<!--        <classes>-->
+<!--            <class name="com.main.test.GoogleTest"/>-->
+<!--            &lt;!&ndash;            <class name="com.main.test.FacebookTest"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <class name="com.main.test.SampleTest"/>&ndash;&gt;-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="System Mac chrome">
-        <parameter name="browser" value="chrome"/>
-        <parameter name="os" value="mac"/>
-        <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
-        <groups>
-            <run>
-                <include name="System"/>
-            </run>
-        </groups>
-        <classes>
-            <class name="com.main.test.GoogleTest"/>
-            <!--            <class name="com.main.test.FacebookTest"/>-->
-            <!--            <class name="com.main.test.SampleTest"/>-->
-        </classes>
-    </test>
+<!--    <test name="System Mac chrome">-->
+<!--        <parameter name="browser" value="chrome"/>-->
+<!--        <parameter name="os" value="mac"/>-->
+<!--        &lt;!&ndash;        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>&ndash;&gt;-->
+<!--        <groups>-->
+<!--            <run>-->
+<!--                <include name="System"/>-->
+<!--            </run>-->
+<!--        </groups>-->
+<!--        <classes>-->
+<!--            <class name="com.main.test.GoogleTest"/>-->
+<!--            &lt;!&ndash;            <class name="com.main.test.FacebookTest"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <class name="com.main.test.SampleTest"/>&ndash;&gt;-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="System Mac firefox">
-        <parameter name="browser" value="firefox"/>
-        <parameter name="os" value="mac"/>
-        <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
-        <groups>
-            <run>
-                <include name="System"/>
-            </run>
-        </groups>
-        <classes>
-            <class name="com.main.test.GoogleTest"/>
-            <!--            <class name="com.main.test.FacebookTest"/>-->
-            <!--            <class name="com.main.test.SampleTest"/>-->
-        </classes>
-    </test>
+<!--    <test name="System Mac firefox">-->
+<!--        <parameter name="browser" value="firefox"/>-->
+<!--        <parameter name="os" value="mac"/>-->
+<!--        &lt;!&ndash;        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>&ndash;&gt;-->
+<!--        <groups>-->
+<!--            <run>-->
+<!--                <include name="System"/>-->
+<!--            </run>-->
+<!--        </groups>-->
+<!--        <classes>-->
+<!--            <class name="com.main.test.GoogleTest"/>-->
+<!--            &lt;!&ndash;            <class name="com.main.test.FacebookTest"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <class name="com.main.test.SampleTest"/>&ndash;&gt;-->
+<!--        </classes>-->
+<!--    </test>-->
 
 <!--    <test name="Regression">-->
 <!--        <parameter name="browser" value="chrome"/>-->
