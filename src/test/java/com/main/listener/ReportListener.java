@@ -7,6 +7,7 @@ import com.main.reports.ExtentManager;
 import com.main.baseSetup.TestBase;
 import com.main.utils.HelperClass;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -51,13 +52,21 @@ public class ReportListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
-        String imagePath = HelperClass.takeScreenshot(TestBase.getDriver(),context.getAttribute("testName").toString() + "_" + iTestResult.getMethod().getMethodName());
+        WebDriver driver = TestBase.getDriver();
+        String imagePath = null;
+        if(!HelperClass.isHeadless(context,driver)){
+            imagePath = HelperClass.takeScreenshot(driver,context.getAttribute("testName").toString() + "_" + iTestResult.getMethod().getMethodName());
+            extentTestThreadLocal.get().addScreenCaptureFromPath(imagePath);
+        }
+
         extentTestThreadLocal.get().log(Status.FAIL,iTestResult.getName() + " Failed " + iTestResult.getThrowable());
-        extentTestThreadLocal.get().addScreenCaptureFromPath(imagePath);
 
         if(HelperClass.isParallelTest(context)) {
+            if(!HelperClass.isHeadless(context,driver)){
+                extentIndividualTestThreadLocal.get().addScreenCaptureFromPath(imagePath);
+            }
             extentIndividualTestThreadLocal.get().log(Status.FAIL,iTestResult.getName() + " Failed " + iTestResult.getThrowable());
-            extentIndividualTestThreadLocal.get().addScreenCaptureFromPath(imagePath);
+
         }
     }
 

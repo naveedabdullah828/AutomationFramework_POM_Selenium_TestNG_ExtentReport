@@ -10,7 +10,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ReadExcel{
     public static Object[][] testExtractDataExcel()
     {
-        System.out.println(System.getProperty("user.dir"));
         File file=new File("credential.xlsx");
         Object[][] obj=null;
         try(InputStream is=new FileInputStream(file)){
@@ -24,7 +23,6 @@ public class ReadExcel{
                 {
                     obj[i-1][j]=sheet1.getRow(i).getCell(j).getStringCellValue();
                 }
-                System.out.println();
             }
             workbook.close();
         } catch (FileNotFoundException e) {

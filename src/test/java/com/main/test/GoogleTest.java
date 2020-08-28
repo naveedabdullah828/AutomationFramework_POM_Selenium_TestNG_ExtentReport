@@ -12,6 +12,7 @@ public class GoogleTest extends TestBase {
     @Test(description = "Launch Google", groups = "Regression", alwaysRun = true)
     public void TC_001_launchGoogle(){
         googleOR.launchGoogle(HelperClass.testData.getProperty("inputUrl"));
+        System.out.println("Title " + driver.getTitle());
     }
 
     @Test(description = "Enter word to search", groups = "Regression", dependsOnMethods = "TC_001_launchGoogle", alwaysRun = true)

@@ -9,6 +9,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,11 +49,9 @@ public class DriverFactory {
                 capabilities.setCapability("platformVersion","10");
                 capabilities.setCapability("browserName", "Chrome");
                 capabilities.setCapability("chromedriverExecutable", System.getProperty("webdriver.chrome.driver"));
-                System.out.println("In Android " + System.getProperty("webdriver.chrome.driver"));
                 break;
 
             case "windows":
-                System.out.println("In windows");
                 capabilities.setCapability("platformName","WIN10");
                 capabilities.setCapability("platform","WIN10");
                 //capabilities.setPlatform(Platform.WIN10);
@@ -66,10 +65,7 @@ public class DriverFactory {
             url = "http://192.168.0.113:4444/wd/hub"; // serve
         else {
             url = "http://"+remoteHost+":4444/wd/hub";
-            System.out.println("remote host from jenkins " + remoteHost);
         }
-
-        System.out.println("Server url " + url);
 
         try {
             if(browser.equalsIgnoreCase("chrome") && !osValue.equalsIgnoreCase("mac")) {
@@ -93,6 +89,9 @@ public class DriverFactory {
                 break;
             case "chrome" :
                 driver = new ChromeDriver();
+                break;
+            case "headless" :
+                driver = new HtmlUnitDriver();
                 break;
             default:
                 driver = null;

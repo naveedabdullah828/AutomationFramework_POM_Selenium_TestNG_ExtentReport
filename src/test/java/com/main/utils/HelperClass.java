@@ -91,6 +91,12 @@ public class HelperClass {
             return false;
     }
 
+    public static boolean isHeadless(ITestContext iTestContext, WebDriver driver) {
+        if(iTestContext.getAttribute("headless").equals(driver.hashCode()))
+            return true;
+        return false;
+    }
+
     public static void setDriverPathForWindows() {
         if(getOS().toLowerCase().contains("windows")) {
             System.setProperty("webdriver.chrome.driver",getUserDirectory() + "/Driver/chromedriver.exe");

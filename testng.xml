@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="MainSuite" thread-count="4" parallel="tests" verbose="10">
+<suite name="MainSuite" thread-count="1" parallel="none" verbose="10">
     <listeners>
         <listener class-name="com.main.listener.ReportListener"/>
 <!--        <listener class-name="com.main.listener.RetryListner"/>-->
     </listeners>
     <parameter name="automationType" value="none"/>
     <test name="System Windows chrome">
-        <parameter name="browser" value="chrome"/>
+        <parameter name="browser" value="headless"/>
+<!--        <parameter name="browser" value="chrome"/>-->
         <parameter name="os" value="windows"/>
 <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
         <groups>
