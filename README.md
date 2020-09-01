@@ -5,7 +5,9 @@ It is an Automation Framework designed using
 ```
 and built on 
 ``` 
- • Selenium WebDriver tool, 
+ • Selenium WebDriver tool,
+ • Selenium Grid
+ • Appium
  • TestNG testing framework,
  • Extent Report and
  • Maven Build Automation Tool
@@ -17,10 +19,8 @@ The Extent Reports include Screenshots for failed test cases.
 ```
  • Rerun Failed Test
  • Screenshot Capture for failed Test which is present in Extent Reports.
+ • Grid support to run test in distributed environment and parallel mode using testNG
  ```
-
-## Driver Support
-• Currently it has Firefox driver support. For other Drivers, replace the FirefoxDriver with your preferred driver and the System Property.
 
 ## Directory Structure
 ```
@@ -33,10 +33,12 @@ The Extent Reports include Screenshots for failed test cases.
 ```
 
 # How to use ?
-Clone the project, Setup the driver and run. And you are done.
+Clone the project, Add Tests and run. And you are done.
 
 Sample Test Scripts for Google Search and Facebook Create New User is added. Replace them with your test.
 
 
 ## Please Note
 Add only the TestNG Test annotations (@Test) in the test classes, the other TestNG Test annotations (@Before, @After) should be updated/added in the file called "TestBase.java", so that all Test Class can benefit from it.
+
+Configure the parameters in TestNG.xml file correctly to run the gird setup or parallel setup.
