@@ -8,16 +8,17 @@ import com.main.objectRepo.GoogleOR;
 import com.main.objectRepo.SampleOR;
 import com.main.utils.HelperClass;
 
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.*;
 import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TestBase {
-    public WebDriver driver;
+    public RemoteWebDriver driver;
     public WebDriverWait wait;
     public DriverFactory driverFactory;
 
@@ -27,7 +28,7 @@ public class TestBase {
     public RetryFailedTest retryFailedTest;
     public ITestContext testBaseTestContext;
 
-    public static ThreadLocal<WebDriver> webDriverThreadLocal = new ThreadLocal<>();
+    public static ThreadLocal<RemoteWebDriver> webDriverThreadLocal = new ThreadLocal<>();
     public static ThreadLocal<WebDriverWait> webDriverWaitThreadLocal = new ThreadLocal<>();
     public static ThreadLocal<AtomicBoolean> retryStatusThread = new ThreadLocal<>();
 
@@ -43,11 +44,11 @@ public class TestBase {
     }
 
     @BeforeTest(alwaysRun = true)
-    @Parameters({"automationType", "browser", "os"})
-    public void beforeTest(final ITestContext iTestContext, String automationType, String browser, String osValue) {
+    @Parameters({"automationType", "browser", "os", "deviceId"})
+    public void beforeTest(final ITestContext iTestContext, String automationType, String browser, String osValue, String deviceId) throws MalformedURLException {
         driverFactory = new DriverFactory();
         if(automationType.equalsIgnoreCase("grid"))
-            driver = driverFactory.createDriverGrid(browser, osValue);
+            driver = driverFactory.createDriverGrid(browser, osValue, deviceId);
         else
             driver = driverFactory.createDriver(browser);
         if(browser.equalsIgnoreCase("headless"))
@@ -99,7 +100,7 @@ public class TestBase {
         }
     }
 
-    public static WebDriver getDriver() {
+    public static RemoteWebDriver getDriver() {
         return webDriverThreadLocal.get();
     }
 
