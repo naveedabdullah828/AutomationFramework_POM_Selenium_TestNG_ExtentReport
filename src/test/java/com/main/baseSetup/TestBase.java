@@ -8,6 +8,7 @@ import com.main.objectRepo.GoogleOR;
 import com.main.objectRepo.SampleOR;
 import com.main.utils.HelperClass;
 
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.*;
@@ -19,7 +20,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TestBase {
     public RemoteWebDriver driver;
-    public WebDriverWait wait;
+    public AndroidDriver driverMobile;
+    public WebDriverWait wait, waitMobile;
     public DriverFactory driverFactory;
 
     public GoogleOR googleOR;
@@ -30,10 +32,15 @@ public class TestBase {
 
     public static ThreadLocal<RemoteWebDriver> webDriverThreadLocal = new ThreadLocal<>();
     public static ThreadLocal<WebDriverWait> webDriverWaitThreadLocal = new ThreadLocal<>();
+
+    public static ThreadLocal<AndroidDriver> mobileDriverThreadLocal = new ThreadLocal<>();
+    public static ThreadLocal<WebDriverWait> mobileDriverWaitThreadLocal = new ThreadLocal<>();
+
     public static ThreadLocal<AtomicBoolean> retryStatusThread = new ThreadLocal<>();
 
     @BeforeSuite(alwaysRun = true)
     public void setup(ITestContext iTestContext) {
+        System.out.println("In testBase");
         HelperClass.setDriverPathForWindows();
         HelperClass.deleteAndCreateDirectory();
         HelperClass.loadData();
@@ -49,8 +56,16 @@ public class TestBase {
         driverFactory = new DriverFactory();
         if(automationType.equalsIgnoreCase("grid"))
             driver = driverFactory.createDriverGrid(browser, osValue, deviceId);
-        else
-            driver = driverFactory.createDriver(browser);
+        else {
+            if (osValue.equalsIgnoreCase("android")) {
+                driverMobile = driverFactory.createMobileDriver(browser, osValue, deviceId);
+                mobileDriverThreadLocal.set(driverMobile);
+                iTestContext.setAttribute(Thread.currentThread().getName(),"android");
+            }
+            else
+                driver = driverFactory.createDriver(browser, osValue, deviceId);
+        }
+
         if(browser.equalsIgnoreCase("headless"))
             iTestContext.setAttribute("headless", driver.hashCode());
         else
@@ -66,14 +81,25 @@ public class TestBase {
             ExtentReports individualTestReports = ReportListener.extentIndividualReportsThreadLocal.get();
             individualTestReports.flush();
         }
-        (webDriverThreadLocal.get()).quit();
+        if(iTestContext.getAttribute(Thread.currentThread().getName()) == "android") {
+            (mobileDriverThreadLocal.get()).quit();
+        }
+        //else
+            //(webDriverThreadLocal.get()).quit();
     }
 
     @BeforeClass(alwaysRun = true)
     public void beforeClass(ITestContext iTestContext){
-        driver = webDriverThreadLocal.get();
-        wait = new WebDriverWait(driver, 10);
-        webDriverWaitThreadLocal.set(wait);
+        if(iTestContext.getAttribute(Thread.currentThread().getName()) == "android") {
+            driverMobile = mobileDriverThreadLocal.get();
+            waitMobile = new WebDriverWait(driverMobile,10);
+            mobileDriverWaitThreadLocal.set(waitMobile);
+        } else {
+            driver = webDriverThreadLocal.get();
+            wait = new WebDriverWait(driver, 10);
+            webDriverWaitThreadLocal.set(wait);
+        }
+
 
         retryFailedTest = new RetryFailedTest();
         googleOR = new GoogleOR(iTestContext);

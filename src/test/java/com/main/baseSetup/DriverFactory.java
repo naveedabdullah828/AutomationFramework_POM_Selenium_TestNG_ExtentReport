@@ -1,6 +1,7 @@
 package com.main.baseSetup;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -17,7 +18,7 @@ public class DriverFactory {
     RemoteWebDriver driver;
     public RemoteWebDriver createDriverGrid(String browser, String osValue, String deviceId) throws MalformedURLException {
         System.out.println("Browser " + browser + " os " + osValue);
-        DesiredCapabilities capabilities = new DesiredCapabilities();;
+        DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions chromeOptions = null;
         FirefoxOptions firefoxOptions = null;
 
@@ -110,7 +111,7 @@ public class DriverFactory {
         return null;
     }
 
-    public RemoteWebDriver createDriver(String browser) {
+    public RemoteWebDriver createDriver(String browser, String os, String deviceId) {
         switch (browser.toLowerCase()) {
             case "firefox":
                 driver = new FirefoxDriver();
@@ -126,6 +127,30 @@ public class DriverFactory {
                 break;
             default:
                 driver = null;
+        }
+        return driver;
+    }
+
+    public AndroidDriver createMobileDriver(String browser, String os, String deviceId) {
+        AndroidDriver driver = null;
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("deviceName", "Samsung");
+        capabilities.setCapability("udid", deviceId);
+        capabilities.setCapability("automationName", "Appium");
+        capabilities.setCapability("platformVersion","10");
+        //capabilities.setCapability("appPackage","tv.peel.app");
+        //capabilities.setCapability("appActivity","com.peel.main.Main");
+        capabilities.setCapability("appPackage","com.sec.android.app.samsungapps");
+        capabilities.setCapability("appActivity",".SKSamsungMainActivity");
+        capabilities.setCapability("appWaitActivity", ".SamsungAppsMainActivity");
+        capabilities.setCapability("noReset", true);
+        //capabilities.setCapability("appWaitActivity","com.peel.setup.CountrySetupSplashActivity");
+        String url = "http://0.0.0.0:4723/wd/hub";
+        try {
+            driver = new AndroidDriver(new URL(url), capabilities);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
         return driver;
     }

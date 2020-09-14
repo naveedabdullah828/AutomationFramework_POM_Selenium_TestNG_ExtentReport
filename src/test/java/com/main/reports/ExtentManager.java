@@ -7,9 +7,9 @@ import com.main.utils.HelperClass;
 public class ExtentManager {
     private static ExtentReports extentReports;
     private static String reportFileName = "Test-Automation-Report.html";
-    private static String fileSeparator = HelperClass.getFileSeparator();
-    private static String userDirectory = HelperClass.getUserDirectory();
-    private static String reportFilePath = userDirectory + fileSeparator + "TestReport";
+    private static final String fileSeparator = HelperClass.getFileSeparator();
+    private static final String userDirectory = HelperClass.getUserDirectory();
+    private static final String reportFilePath = userDirectory + fileSeparator + "TestReport";
 
     public static ExtentReports getInstance(String xmlFileName) {
         if (!xmlFileName.equalsIgnoreCase("testng.xml")) {

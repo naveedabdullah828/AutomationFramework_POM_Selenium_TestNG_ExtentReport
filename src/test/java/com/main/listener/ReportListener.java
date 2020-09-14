@@ -26,7 +26,7 @@ public class ReportListener implements ITestListener {
     @Override
     public void onTestStart(ITestResult iTestResult) {
         context = iTestResult.getTestContext();
-        if(TestBase.retryStatusThread.get().get()) {
+        if(null != TestBase.retryStatusThread && TestBase.retryStatusThread.get().get()) {
             extentReports.removeTest(extentTestThreadLocal.get());
         }
         extentTest = extentReports.createTest(context.getAttribute("testName").toString() + " " +iTestResult.getMethod().getMethodName());

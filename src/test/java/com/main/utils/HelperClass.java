@@ -85,16 +85,11 @@ public class HelperClass {
     }
 
     public static boolean isParallelTest(ITestContext iTestContext) {
-        if(ParallelMode.TESTS.equals(iTestContext.getCurrentXmlTest().getParallel()))
-            return true;
-        else
-            return false;
+        return ParallelMode.TESTS.equals(iTestContext.getCurrentXmlTest().getParallel());
     }
 
     public static boolean isHeadless(ITestContext iTestContext, WebDriver driver) {
-        if(iTestContext.getAttribute("headless").equals(driver.hashCode()))
-            return true;
-        return false;
+        return null != iTestContext.getAttribute("headless") && iTestContext.getAttribute("headless").equals(driver.hashCode());
     }
 
     public static void setDriverPathForWindows() {
