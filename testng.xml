@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="MainSuite" thread-count="1" parallel="none" verbose="10">
+<suite name="MainSuite" thread-count="2" parallel="tests" verbose="10">
     <listeners>
         <listener class-name="com.main.listener.ReportListener"/>
         <!--        <listener class-name="com.main.listener.RetryListner"/>-->
     </listeners>
     <parameter name="automationType" value="none"/>
+    //sanity
     <test name="S10">
         <!--        <parameter name="browser" value="headless"/>-->
         <parameter name="browser" value="chrome"/>
         <parameter name="os" value="mac"/>
-        <parameter name="deviceId" value="RZ8M22QC4MW"/>
+<!--        <parameter name="deviceId" value="RZ8M22QC4MW"/>-->
         <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
         <groups>
             <run>
@@ -19,29 +20,31 @@
         </groups>
         <classes>
 
+<!--            <class name="com.main.test.SampleTest"/>-->
             <class name="com.main.test.GoogleTest"/>
-            <!--            <class name="com.main.test.FacebookTest"/>-->
-            <!--            <class name="com.main.test.SampleTest"/>-->
+            <class name="com.main.test.FacebookTest"/>
+
         </classes>
     </test>
 
-    <!--    <test name="Note 10">-->
-    <!--        &lt;!&ndash;        <parameter name="browser" value="headless"/>&ndash;&gt;-->
-    <!--        <parameter name="browser" value="RF8N31061CR"/>-->
-    <!--        <parameter name="os" value="android"/>-->
-    <!--        &lt;!&ndash;        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>&ndash;&gt;-->
-    <!--        &lt;!&ndash;        <groups>&ndash;&gt;-->
-    <!--        &lt;!&ndash;            <run>&ndash;&gt;-->
-    <!--        &lt;!&ndash;                <include name="System"/>&ndash;&gt;-->
-    <!--        &lt;!&ndash;            </run>&ndash;&gt;-->
-    <!--        &lt;!&ndash;        </groups>&ndash;&gt;-->
-    <!--        <classes>-->
-    <!--            <class name="com.main.test.MobileApp"/>-->
-    <!--            &lt;!&ndash;            <class name="com.main.test.GoogleTest"/>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <class name="com.main.test.FacebookTest"/>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <class name="com.main.test.SampleTest"/>&ndash;&gt;-->
-    <!--        </classes>-->
-    <!--    </test>-->
+
+
+        <test name="Note 10">
+            <!--        <parameter name="browser" value="headless"/>-->
+            <parameter name="browser" value="chrome"/>
+            <parameter name="os" value="mac"/>
+            <!--        <parameter name="node" value=" http://192.168.0.113:5567/wd/hub"/>-->
+                    <groups>
+                        <run>
+                            <include name="Regression"/>
+                        </run>
+                    </groups>
+            <classes>
+                <!--            <class name="com.main.test.GoogleTest"/>-->
+                            <class name="com.main.test.FacebookTest"/>
+                <!--            <class name="com.main.test.SampleTest"/>-->
+            </classes>
+        </test>
 
 
     <!--    <test name="System Windows firefox">-->

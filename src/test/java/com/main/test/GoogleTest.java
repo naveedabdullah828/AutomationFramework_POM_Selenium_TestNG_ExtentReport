@@ -4,8 +4,13 @@ import com.aventstack.extentreports.Status;
 import com.main.baseSetup.TestBase;
 import com.main.listener.ReportListener;
 import com.main.utils.HelperClass;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 @Test(groups = "System")
 public class GoogleTest extends TestBase {
@@ -13,6 +18,7 @@ public class GoogleTest extends TestBase {
     public void TC_001_launchGoogle(){
         googleOR.launchGoogle(HelperClass.testData.getProperty("inputUrl"));
         System.out.println("Title " + driver.getTitle());
+        googleOR.traverseLinks();
     }
 
     @Test(description = "Enter word to search", groups = "Regression", dependsOnMethods = "TC_001_launchGoogle", alwaysRun = true)

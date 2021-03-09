@@ -10,5 +10,6 @@ public class RetryListner implements IAnnotationTransformer {
     @Override
     public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
         annotation.setRetryAnalyzer(RetryFailedTest.class);
+        annotation.setEnabled(false);
     }
 }

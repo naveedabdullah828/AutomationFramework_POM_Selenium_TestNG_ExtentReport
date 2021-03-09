@@ -45,7 +45,7 @@ public class TestBase {
 
     @BeforeTest(alwaysRun = true)
     @Parameters({"automationType", "browser", "os", "deviceId"})
-    public void beforeTest(final ITestContext iTestContext, String automationType, String browser, String osValue, String deviceId) throws MalformedURLException {
+    public void beforeTest(final ITestContext iTestContext, @Optional("none") String automationType, @Optional("chrome")String browser, @Optional("mac")String osValue, @Optional("default") String deviceId) throws MalformedURLException {
         driverFactory = new DriverFactory();
         if(automationType.equalsIgnoreCase("grid"))
             driver = driverFactory.createDriverGrid(browser, osValue, deviceId);
@@ -89,6 +89,7 @@ public class TestBase {
     public void beforeMethod(Method method, ITestResult iTestResult, ITestContext iTestContext) {
         testBaseTestContext = iTestContext;
         if(retryStatusThread.get().get()) {
+            //handle retry logic
             HelperClass.retriedTest.add(iTestResult.getMethod());
         }
     }
